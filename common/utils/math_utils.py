@@ -9,6 +9,13 @@ def cal_triangle_angle(point1, point2, point3):
 
 def cal_triangle_angle2(point1, point2, point3):
     # 逆时针从3到1的度数
+    if point1[1] == point3[1]:
+        if point3[0] < point2[0]:
+            # 3在2的左边
+            return np.pi
+        else:
+            # 3在2的右边
+            return 0
     if point3[1] > point2[1]:
         return cal_triangle_angle(point1, point2, point3)
     else:
@@ -25,6 +32,7 @@ def draw_arc(point1, point2, point3, **kwargs):
         arc_center=point2,
         **kwargs
     )
+
 
 def cal_dis(point1, point2):
     return np.linalg.norm(point1 - point2)
@@ -49,3 +57,21 @@ def get_vertical_point(point1, point2, anticlockwise=True, length=1):
         vector = np.array([vector[1], -vector[0], 0])
     vector = vector / np.linalg.norm(vector) * length
     return point1 + vector
+
+
+def get_circle_center_from_triangle(point1, point2, point3):
+    # 获取三角形的外接圆圆心坐标、克拉默法则
+    # 三角形的外接圆圆心坐标为：(x,y)
+    # A1=2*(x2-x1)；B1=2*(y2-y1)；C1=x2^2+y2^2-x1^2-y1^2；
+    a1 = 2 * (point2[0] - point1[0])
+    b1 = 2 * (point2[1] - point1[1])
+    c1 = point2[0] ** 2 + point2[1] ** 2 - point1[0] ** 2 - point1[1] ** 2
+    # A2=2*(x3-x2)；B2=2*(y3-y2)；C2=x3^2+y3^2-x2^2-y2^2；
+    a2 = 2 * (point3[0] - point2[0])
+    b2 = 2 * (point3[1] - point2[1])
+    c2 = point3[0] ** 2 + point3[1] ** 2 - point2[0] ** 2 - point2[1] ** 2
+    # x=((C1*B2)-(C2*B1))/((A1*B2)-(A2*B1))；
+    # y=((A1*C2)-(A2*C1))/((A1*B2)-(A2*B1))；
+    x = ((c1 * b2) - (c2 * b1)) / ((a1 * b2) - (a2 * b1))
+    y = ((a1 * c2) - (a2 * c1)) / ((a1 * b2) - (a2 * b1))
+    return np.array([x, y, 0])

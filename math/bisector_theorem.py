@@ -4,9 +4,10 @@ sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
 from manimlib import *
 from yj.common.utils.math_utils import cal_dis, cal_triangle_angle
+from yj.common.math.object_utils import get_rect
 
 
-class Test1(Scene):
+class Bisector1(Scene):
     def construct(self) -> None:
         title = Title('角平分线定理').scale(0.9)
         self.add(title)
@@ -117,6 +118,7 @@ class Test1(Scene):
         self.wait()
         self.play(Write(desc4))
         desc5 = Tex('AB=BE').scale(0.8).next_to(desc4, DOWN, buff=0.5, aligned_edge=LEFT)
+        self.wait()
         self.play(Write(desc5))
 
         triangle_bde = Polygon(pos_b, pos_d, pos_e).set_stroke(width=4).set_fill(color=BLUE_A, opacity=0.5)
@@ -129,7 +131,10 @@ class Test1(Scene):
         desc6 = Tex('\\triangle BDE\\sim\\triangle CDA').scale(0.8).next_to(desc5, DOWN, buff=0.5, aligned_edge=LEFT)
         self.play(Write(desc6))
         # 所以ab/ac = be/ac=bd/dc
-        desc7 = Tex('\\frac{AB}{AC}=\\frac{BE}{AC}=\\frac{BD}{DC}').scale(0.8).next_to(desc6, DOWN, buff=0.5,
-                                                                                       aligned_edge=LEFT)
+        desc7 = Tex('\\frac{AB}{AC}', '=\\frac{BE}{AC}=', '\\frac{BD}{DC}').scale(0.8).next_to(
+            desc6, DOWN, buff=0.5, aligned_edge=LEFT)
         self.wait()
         self.play(Write(desc7))
+        self.play(ShowCreation(get_rect(desc7[0], color=GREEN)))
+        self.play(ShowCreation(get_rect(desc7[2], color=GREEN)))
+        self.wait(5)

@@ -16,8 +16,11 @@ def add_right_arrow(obj):
 def get_rect(obj, **kwargs):
     """ 给obj加框，以obj为中心
     """
+    # 默认color为白色
     return Rectangle(
-        width=obj.get_width() + 2 * kwargs["buff"],
-        height=obj.get_height() + 2 * kwargs["buff"],
+        width=obj.get_width() + 2 * (kwargs["buff"] if "buff" in kwargs else 0.1),
+        height=obj.get_height() + 2 * (kwargs["buff"] if "buff" in kwargs else 0.1),
         **kwargs
-    ).set_color(kwargs["color"]).move_to(obj.get_center())
+    ).set_color(
+        kwargs["color"] if "color" in kwargs else WHITE
+    ).move_to(obj.get_center())

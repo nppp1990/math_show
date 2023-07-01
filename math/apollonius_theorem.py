@@ -56,7 +56,7 @@ def init_triangle(self):
     return pos_a, pos_b, pos_c, pos_d, mid_line
 
 
-class Test1(Scene):
+class MidLine1(Scene):
     def construct(self):
         title = Title("中线定理-超简单").scale(0.9)
         self.add(title)
@@ -147,9 +147,10 @@ class Test1(Scene):
         self.play(Write(desc3))
         self.play(Write(desc4))
         self.play(Write(desc5))
+        self.wait(3)
 
 
-class Test2(Scene):
+class MidLine2(Scene):
     def construct(self):
         title = Title("中线定理-余弦定理证法").scale(0.9)
         self.add(title)
@@ -191,3 +192,4 @@ class Test2(Scene):
         self.play(ShowCreation(arrow2))
         text6 = Tex("AB^2 + AC^2 = 2(AD^2 + BD^2)").scale(0.7).next_to(arrow2, RIGHT, buff=0.2)
         self.play(Write(text6))
+        self.wait(3)

@@ -533,9 +533,9 @@ class TestRes(Scene):
         self.wait()
 
         child1 = VGroup(example_group_list1[1], example_group_list1[3], example_group_list1[4])
-        child_rect1 = get_rect(child1, 0.1)
+        child_rect1 = old_get_rect(child1, 0.1)
         child2 = VGroup(example_group_list1[2])
-        child_rect2 = get_rect(child2, 0.1)
+        child_rect2 = old_get_rect(child2, 0.1)
         self.play(ShowCreation(child_rect1), ShowCreation(child_rect2))
         self.wait()
 
@@ -607,8 +607,8 @@ class TestRes(Scene):
         )
         self.wait(2)
 
-        child_rect1 = get_rect(VGroup(example_group_list1[1], example_group_list1[3], example_group_list1[4]), 0.1)
-        child_rect2 = get_rect(VGroup(example_group_list1[2]), 0.1)
+        child_rect1 = old_get_rect(VGroup(example_group_list1[1], example_group_list1[3], example_group_list1[4]), 0.1)
+        child_rect2 = old_get_rect(VGroup(example_group_list1[2]), 0.1)
         self.play(
             ShowCreation(child_rect1),
             ShowCreation(child_rect2),

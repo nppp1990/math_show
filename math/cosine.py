@@ -1,4 +1,3 @@
-import math
 import sys
 
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')

@@ -75,3 +75,21 @@ def get_circle_center_from_triangle(point1, point2, point3):
     x = ((c1 * b2) - (c2 * b1)) / ((a1 * b2) - (a2 * b1))
     y = ((a1 * c2) - (a2 * c1)) / ((a1 * b2) - (a2 * b1))
     return np.array([x, y, 0])
+
+
+def get_cross_point(pos1, pos2, pos3, pos4):
+    # 两条线的交叉点
+    # pos1 pos2为第一条线的两个端点
+    # pos3 pos4为第二条线的两个端点
+    # 两条线的方程分别为：
+    # (y-y1)/(x-x1)=(y2-y1)/(x2-x1)
+    # (y-y3)/(x-x3)=(y4-y3)/(x4-x3)
+    # 两条线的交叉点为：
+    # x=((x1*y2-y1*x2)*(x3-x4)-(x1-x2)*(x3*y4-y3*x4))/((x1-x2)*(y3-y4)-(y1-y2)*(x3-x4))
+    pos_x = ((pos1[0] * pos2[1] - pos1[1] * pos2[0]) * (pos3[0] - pos4[0]) - (pos1[0] - pos2[0]) * (
+            pos3[0] * pos4[1] - pos3[1] * pos4[0])) / (
+                    (pos1[0] - pos2[0]) * (pos3[1] - pos4[1]) - (pos1[1] - pos2[1]) * (pos3[0] - pos4[0]))
+    pos_y = ((pos1[0] * pos2[1] - pos1[1] * pos2[0]) * (pos3[1] - pos4[1]) - (pos1[1] - pos2[1]) * (
+            pos3[0] * pos4[1] - pos3[1] * pos4[0])) / (
+                    (pos1[0] - pos2[0]) * (pos3[1] - pos4[1]) - (pos1[1] - pos2[1]) * (pos3[0] - pos4[0]))
+    return np.array([pos_x, pos_y, 0])

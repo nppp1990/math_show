@@ -7,8 +7,8 @@ def get_right_angle(point, x, y, stroke_width=4):
     return VGroup(line1, line2)
 
 
-def add_right_arrow(obj, **kwargs):
-    arrow = Line(obj.get_right() + 0.2 * RIGHT, obj.get_right() + RIGHT, **kwargs)
+def add_right_arrow(obj, length=0.8, **kwargs):
+    arrow = Line(obj.get_right() + 0.2 * RIGHT, obj.get_right() + RIGHT * (length + 0.2), **kwargs)
     arrow.add_tip(width=0.16, length=0.16)
     return arrow
 

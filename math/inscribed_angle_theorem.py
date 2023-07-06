@@ -1,9 +1,10 @@
+import math
 import sys
 
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
-from yj.common.utils.math_utils import draw_arc
-from yj.common.math.object_utils import add_right_arrow, get_rect
+from yj.common.utils.math_utils import draw_arc, draw_polygon_line, get_lines_vertices, cal_triangle_angle, cal_dis
+from yj.common.math.object_utils import add_right_arrow, get_rect, get_right_angle, get_right_angle_by_points
 
 from manimlib import *
 
@@ -271,3 +272,189 @@ class InscribedAngle1(Scene):
         self.play(
             UpdateFromAlphaFunc(group_triangle, update_x, run_time=run_time),
         )
+
+
+class InscribedAngle2(Scene):
+    def construct(self) -> None:
+        title = Title("圆周角定理逆定理").scale(0.9)
+        self.add(title)
+        circle = Circle(radius=1.5, color=YELLOW)
+        # self.play(ShowCreation(circle))
+        pos_a = circle.point_from_proportion(0.7)
+        pos_b = circle.point_from_proportion(0.9)
+        pos_c = circle.point_from_proportion(0.05)
+        pos_d = circle.point_from_proportion(0.45)
+
+        text_a = Tex("A").next_to(pos_a, DOWN, buff=0.1).scale(0.7)
+        text_b = Tex("B").next_to(pos_b, DOWN, buff=0.1).scale(0.7)
+        text_c = Tex("C").next_to(pos_c, UP, buff=0.1).scale(0.7)
+        text_d = Tex("D").next_to(pos_d, UP, buff=0.1).scale(0.7)
+        polygon = draw_polygon_line(pos_a, pos_b, pos_c, pos_d)
+        self.play(ShowCreation(polygon), Write(text_a), Write(text_b), Write(text_c), Write(text_d))
+        line_ca = Line(pos_c, pos_a)
+        line_db = Line(pos_d, pos_b)
+        self.play(ShowCreation(line_ca), ShowCreation(line_db))
+        self.wait()
+        arc_acb = draw_arc(pos_a, pos_c, pos_b, radius=0.5, color=YELLOW)
+        arc_adb = draw_arc(pos_a, pos_d, pos_b, radius=0.5, color=YELLOW)
+        bottom_desc = VGroup(
+            Text("如果"),
+            Tex("\\angle ACB", "=", "\\angle ADB"),
+            Text("，则"),
+            Tex("\\square ABCD"),
+            Text("有外接圆", t2c={"外接圆": YELLOW}),
+        ).arrange(RIGHT).scale(0.7).next_to(circle, DOWN, buff=1.5)
+        tips = VGroup(
+            Tex("\\angle ACB", "=", "\\angle ADB \\rightarrow \\square ABCD"),
+            Text("有外接圆", t2c={"外接圆": YELLOW}).scale(0.9),
+        ).arrange(RIGHT).scale(0.5).next_to(title, DOWN, buff=1, aligned_edge=LEFT).shift(LEFT)
+
+        self.play(ShowCreation(arc_acb), ShowCreation(arc_adb), Write(bottom_desc[0:2]))
+        self.wait()
+        self.play(ShowCreation(circle), Write(bottom_desc[2:]))
+
+        self.wait()
+
+        group_temp = VGroup(polygon, text_a, text_b, text_c, text_d, line_ca, line_db, arc_acb, arc_adb)
+        self.play(FadeOut(bottom_desc), group_temp.animate.shift(LEFT * 2.5 + DOWN * 0.5), FadeOut(circle),
+                  ShowCreation(tips))
+        circle.set_color(WHITE).shift(LEFT * 2.5 + DOWN * 0.5)
+        pos_a = get_lines_vertices(polygon)[0]
+        pos_b = get_lines_vertices(polygon)[1]
+        pos_c = get_lines_vertices(polygon)[2]
+        pos_d = get_lines_vertices(polygon)[3]
+        point_o = Dot(circle.get_center()).scale(0.7)
+        text_o = Tex("O").next_to(point_o, UP, buff=0.1).scale(0.7)
+        bottom_desc = VGroup(
+            Text("对"),
+            Tex("ABD"),
+            Text("作外接圆O"),
+        ).arrange(RIGHT).scale(0.7).move_to(bottom_desc)
+        self.play(ShowCreation(circle), Write(bottom_desc), Write(point_o), Write(text_o))
+        self.wait()
+        self.play(FadeOut(bottom_desc), run_time=0.5)
+        bottom_desc = VGroup(
+            Text("由正弦定理可得", t2c={"正弦定理": YELLOW}),
+            Tex("\\sin \\angle ACB=", "\\sin \\angle ADB =", "\\frac{AB}{2R}"),
+        ).arrange(RIGHT).scale(0.7).move_to(bottom_desc)
+        self.play(Write(bottom_desc))
+
+        desc1 = Tex("\\sin \\angle ACB", "=\\frac{AB}{2R}").scale(0.6).next_to(
+            title, DOWN, buff=0.5, aligned_edge=RIGHT).shift(LEFT * 3.5)
+        self.play(
+            TransformFromCopy(bottom_desc[1][0], desc1[0]),
+            TransformFromCopy(bottom_desc[1][2], desc1[1]),
+        )
+        self.wait()
+        self.play(FadeOut(bottom_desc))
+        self.play(FadeOut(VGroup(polygon[2], polygon[3], text_d, arc_adb, line_db)))
+        pos_e = circle.point_from_proportion(0.9 - 0.5)
+        bottom_desc = VGroup(
+            Text("过BO作直线和圆O的交点为E，"),
+            Text("BE是直径所以"),
+            Tex("\\angle EAB=90^{\\circ}"),
+        ).arrange(RIGHT).scale(0.7).move_to(bottom_desc)
+        self.play(Write(bottom_desc[0]), ShowCreation(DashedLine(pos_b, pos_e)))
+        self.play(Write(Tex("E").next_to(pos_e, UP, buff=0.1).scale(0.7)), run_time=0.5)
+        right_angle_eab = get_right_angle_by_points(pos_e, pos_a, pos_b)
+        self.play(Write(bottom_desc[1:]), ShowCreation(DashedLine(pos_e, pos_a)), ShowCreation(right_angle_eab))
+        self.wait()
+        desc2 = Tex("\\angle EAB=90^{\\circ}").scale(0.6).next_to(
+            desc1, RIGHT, buff=0.5)
+        self.play(TransformFromCopy(bottom_desc[2], desc2))
+        self.play(FadeOut(bottom_desc))
+        self.wait()
+        bottom_desc = VGroup(
+            Text("此时只需要证明"),
+            Tex("\\angle ECB=90^{\\circ}", color=YELLOW),
+            Text("即可得到点"),
+            Tex("C"),
+            Text("在圆O上")
+        ).arrange(RIGHT).scale(0.7).move_to(bottom_desc)
+        self.play(Write(bottom_desc), Write(Line(pos_e, pos_c, color=YELLOW)), Write(Line(pos_c, pos_b, color=YELLOW)))
+        desc3 = bottom_desc.copy().scale(0.5 / 0.7).next_to(desc1, DOWN, buff=0.4, aligned_edge=LEFT)
+        self.play(TransformFromCopy(bottom_desc, desc3))
+        self.remove(bottom_desc)
+        angle_acb = cal_triangle_angle(pos_a, pos_c, pos_b)
+        pos_f = pos_c + cal_dis(pos_c, pos_b) * math.cos(angle_acb) * Line(pos_c, pos_a).get_unit_vector()
+        dash_line_bf = DashedLine(pos_b, pos_f)
+        bottom_desc = VGroup(
+            Text("过"),
+            Tex("B"),
+            Text("作"),
+            Tex("AC"),
+            Text("的垂线交于点"),
+            Tex("F"),
+        ).arrange(RIGHT).scale(0.7).move_to(bottom_desc)
+        self.play(Write(bottom_desc), ShowCreation(dash_line_bf))
+        right_angle_bfc = get_right_angle_by_points(pos_b, pos_f, pos_c, size=0.15)
+        self.play(ShowCreation(Tex("F").next_to(pos_f, UP, buff=0.1).scale(0.7)), ShowCreation(right_angle_bfc))
+        self.wait()
+        self.play(FadeOut(bottom_desc))
+        arc_aeb = draw_arc(pos_a, pos_e, pos_b, color=YELLOW, radius=0.5)
+        bottom_desc = VGroup(
+            Tex("\\angle EAB=90^{\\circ}"),
+            Tex("\\rightarrow"),
+            Tex("\\sine \\angle AEB"),
+            Tex("=\\frac{AB}{EB}=\\frac{AB}{2R}="),
+            Tex("\\sin \\angle ACB"),
+        ).arrange(RIGHT).scale(0.7).move_to(bottom_desc)
+        self.play(TransformFromCopy(desc2, bottom_desc[0]))
+        self.play(Write(bottom_desc[1:4]))
+        self.play(TransformFromCopy(desc1[0], bottom_desc[4]))
+        angle_text1 = Tex("1", color=BLUE).scale(0.4).next_to(arc_aeb, DOWN, buff=0.1).shift(RIGHT * 0.2)
+        angle_text2 = Tex("1", color=BLUE).scale(0.4).next_to(arc_acb, DOWN, buff=0.1).shift(LEFT * 0.1)
+        self.play(ShowCreation(arc_aeb), Write(angle_text1), ShowCreation(arc_acb), Write(angle_text2))
+        self.wait()
+        desc4 = Tex(
+            "\\sine \\angle AEB",
+            "=",
+            "\\sin \\angle ACB",
+            "\\rightarrow \\angle AEB=\\angle ACB \\rightarrow ",
+            "\\angle EBA=\\angle EBF",
+        ).scale(0.5).next_to(desc3, DOWN, buff=0.4, aligned_edge=LEFT)
+        self.play(TransformFromCopy(bottom_desc[2], desc4[0]))
+        self.play(Write(desc4[1], run_time=0.2))
+        self.play(TransformFromCopy(bottom_desc[4], desc4[2]))
+        self.play(Write(desc4[3:]))
+        self.wait()
+        self.play(FadeOut(VGroup(desc4[0:4])))
+        self.play(desc4[4].next_to, desc3, DOWN, {"buff": 0.4, "aligned_edge": LEFT})
+        desc5 = Tex("\\rightarrow", "\\angle ABF=\\angle EBC").scale(0.5).next_to(desc4[4], RIGHT, buff=0.1)
+        self.play(Write(desc5))
+        self.wait()
+        desc6 = Tex("BF = BC \\cdot \\sin 1").scale(0.5).next_to(desc4[4], DOWN, buff=0.4, aligned_edge=LEFT)
+        desc7 = Tex("AB = BE \\cdot \\sin 1").scale(0.5).next_to(desc6, DOWN, buff=0.4, aligned_edge=LEFT)
+        brace = Brace(VGroup(desc6, desc7), RIGHT, buff=0.1)
+        desc8 = Tex("\\frac{BF}{AB} = \\frac{BC}{BE}").scale(0.5)
+        brace.put_at_tip(desc8)
+        self.play(Write(desc6))
+        self.play(Write(desc7))
+        self.play(GrowFromCenter(brace))
+        self.play(Write(desc8))
+        self.wait()
+        self.play(ShowCreation(SurroundingRectangle(desc5[1], color=BLUE, buff=0.1)))
+        self.play(ShowCreation(SurroundingRectangle(desc8, color=BLUE, buff=0.1)))
+        desc9 = Tex("\\triangle ABF \\sim \\triangle EBC").scale(0.5).next_to(desc7, DOWN, buff=0.4, aligned_edge=LEFT)
+        triangle_abf = Polygon(pos_a, pos_b, pos_f, color=BLUE)
+        triangle_ebc = Polygon(pos_e, pos_b, pos_c, color=BLUE)
+        self.play(ShowCreation(triangle_abf))
+        self.play(ShowCreation(triangle_ebc))
+        self.play(Write(desc9))
+        self.wait()
+        desc10 = Tex("\\rightarrow \\angle ECB=\\angle AFB=90^{\\circ}").scale(0.5).next_to(desc9, RIGHT, buff=0.1)
+        self.play(Write(desc10))
+        self.play(ShowCreation(SurroundingRectangle(desc3, color=BLUE, buff=0.1)))
+        self.wait()
+        self.remove(triangle_abf, triangle_ebc)
+        desc11 = VGroup(
+            Tex("\\therefore \\square ABCD"),
+            Text("有外接圆", t2c={"外接圆": YELLOW}),
+            Tex("O")
+        ).arrange(RIGHT).scale(0.5).next_to(desc9, DOWN, buff=0.4, aligned_edge=LEFT)
+        self.play(ShowCreation(
+            VGroup(Line(pos_a, pos_b), Line(pos_b, pos_c), Line(pos_c, pos_d), Line(pos_d, pos_a)).set_color(BLUE)),
+            Write(Tex("D").next_to(pos_d, UP, buff=0.1).scale(0.7))
+        )
+        self.play(Write(desc11))
+        self.wait(5)

@@ -93,3 +93,20 @@ def get_cross_point(pos1, pos2, pos3, pos4):
             pos3[0] * pos4[1] - pos3[1] * pos4[0])) / (
                     (pos1[0] - pos2[0]) * (pos3[1] - pos4[1]) - (pos1[1] - pos2[1]) * (pos3[0] - pos4[0]))
     return np.array([pos_x, pos_y, 0])
+
+
+def draw_polygon_line(*points: np.ndarray, **kwargs):
+    # line画多边形
+    # points为多边形的顶点坐标
+    lines = []
+    for i in range(len(points) - 1):
+        lines.append(Line(points[i], points[i + 1], **kwargs))
+    lines.append(Line(points[-1], points[0], **kwargs))
+    return VGroup(*lines)
+
+
+def get_lines_vertices(polygon_line_group):
+    vertices = []
+    for line in polygon_line_group:
+        vertices.append(line.get_start())
+    return vertices

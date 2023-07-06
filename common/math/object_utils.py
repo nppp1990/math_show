@@ -1,10 +1,16 @@
 from manimlib import *
 
 
-def get_right_angle(point, x, y, stroke_width=4):
-    line1 = Line(point + x + y, point + x).set_stroke(width=stroke_width)
-    line2 = Line(point + x + y, point + y).set_stroke(width=stroke_width)
+def get_right_angle(point, x, y, **kwargs):
+    line1 = Line(point + x + y, point + x, **kwargs)
+    line2 = Line(point + x + y, point + y, **kwargs)
     return VGroup(line1, line2)
+
+
+def get_right_angle_by_points(point1, point2, point3, size=0.3, **kwargs):
+    x = Line(point2, point1).get_unit_vector() * size
+    y = Line(point2, point3).get_unit_vector() * size
+    return get_right_angle(point2, x, y, **kwargs)
 
 
 def add_right_arrow(obj, length=0.8, **kwargs):

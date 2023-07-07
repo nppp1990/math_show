@@ -187,3 +187,29 @@ class Ptolemy(Scene):
         )
         self.play(Write(desc7[7:]))
         self.wait(5)
+
+
+def create_mob(pos_offset):
+    circle = Circle(radius=1.5).shift(UP * 0.5)
+    pos_a = circle.point_from_proportion(0.1)
+    pos_b = circle.point_from_proportion(0.35)
+    pos_c = circle.point_from_proportion(0.6) + pos_offset
+    pos_d = circle.point_from_proportion(0.95)
+    polygon = Polygon(pos_a, pos_b, pos_c, pos_d)
+    text_a = Tex('A').scale(0.6).next_to(pos_a, UP, buff=0.1)
+    text_b = Tex('B').scale(0.6).next_to(pos_b, LEFT, buff=0.1)
+    text_c = Tex('C').scale(0.6).next_to(pos_c, DOWN, buff=0.1)
+    text_d = Tex('D').scale(0.6).next_to(pos_d, RIGHT, buff=0.1)
+    line_ac = Line(pos_a, pos_c)
+    line_bd = Line(pos_b, pos_d)
+    return VGroup(circle, polygon, text_a, text_b, text_c, text_d, line_ac, line_bd)
+
+
+class Ptolemy2(Scene):
+    def construct(self) -> None:
+        title = Title('托勒密不等式').scale(0.9)
+        self.add(title)
+        mob = create_mob(LEFT)
+        self.play(ShowCreation(mob[1]))
+        self.play(ShowCreation(mob[0]))
+        self.play(Write(mob[2:]))

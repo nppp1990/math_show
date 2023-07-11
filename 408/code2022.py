@@ -1,5 +1,5 @@
 from manimlib import *
-from yj.common.utils.utils import get_rect2
+from yj.math_show.common.utils.utils import get_rect2
 
 POSITION = [ORIGIN,
             # 第二层

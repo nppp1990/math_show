@@ -3,8 +3,8 @@ import sys
 
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
-from yj.common.utils.math_utils import draw_arc, draw_polygon_line, get_lines_vertices, cal_triangle_angle, cal_dis
-from yj.common.math.object_utils import add_right_arrow, get_rect, get_right_angle, get_right_angle_by_points
+from yj.math_show.common.utils.math_utils import draw_arc, draw_polygon_line, get_lines_vertices, cal_triangle_angle, cal_dis
+from yj.math_show.common.math.object_utils import add_right_arrow, get_rect, get_right_angle, get_right_angle_by_points
 
 from manimlib import *
 

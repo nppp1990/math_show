@@ -1,9 +1,9 @@
 import sys
 
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
-from yj.common.utils.utils import get_rect2
-from yj.common.utils.utils import get_del_line
-from yj.common.utils.text import create_bottom_tip
+from yj.math_show.common.utils.utils import get_rect2
+from yj.math_show.common.utils.utils import get_del_line
+from yj.math_show.common.utils.text import create_bottom_tip
 from manimlib import *
 
 color_map_20 = {

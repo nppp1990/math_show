@@ -3,8 +3,8 @@ import sys
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
 from manimlib import *
-from yj.common.utils.math_utils import get_cross_point
-from yj.common.math.object_utils import get_right_angle
+from yj.math_show.common.utils.math_utils import get_cross_point
+from yj.math_show.common.math.object_utils import get_right_angle
 
 
 def create_triangle(pos1, pos2, pos3, **kwargs):

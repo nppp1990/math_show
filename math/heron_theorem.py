@@ -2,7 +2,7 @@ import sys
 
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
-from yj.common.math.object_utils import get_right_angle, add_right_arrow, get_rect, add_arrow_from_to
+from yj.math_show.common.math.object_utils import get_right_angle, add_right_arrow, get_rect, add_arrow_from_to
 from manimlib import *
 
 

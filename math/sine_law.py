@@ -3,8 +3,8 @@ import sys
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
 
-from yj.common.utils.math_utils import get_circle_center_from_triangle, cal_dis, draw_arc
-from yj.common.math.object_utils import get_right_angle
+from yj.math_show.common.utils.math_utils import get_circle_center_from_triangle, cal_dis, draw_arc
+from yj.math_show.common.math.object_utils import get_right_angle
 
 from manimlib import *
 

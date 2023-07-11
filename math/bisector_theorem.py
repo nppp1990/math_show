@@ -3,8 +3,8 @@ import sys
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
 from manimlib import *
-from yj.common.utils.math_utils import cal_dis, cal_triangle_angle
-from yj.common.math.object_utils import get_rect
+from yj.math_show.common.utils.math_utils import cal_dis, cal_triangle_angle
+from yj.math_show.common.math.object_utils import get_rect
 
 
 class Bisector1(Scene):

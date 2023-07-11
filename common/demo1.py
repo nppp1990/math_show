@@ -1,6 +1,5 @@
 from manimlib import *
-from yj.common.scene.link import LinkNode
-from yj.common.utils.utils import get_rect2
+from yj.math_show.common.utils.utils import get_rect2
 
 
 class Test1(Scene):

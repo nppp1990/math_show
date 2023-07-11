@@ -3,10 +3,9 @@ import sys
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
 from manimlib import *
-from yj.common.scene.link import create_link
-from yj.common.scene.link import create_link2
-from yj.common.utils.utils import get_rect2
-from yj.common.utils.utils import get_del_line
+from yj.math_show.common.scene.link import create_link2
+from yj.math_show.common.utils.utils import get_rect2
+from yj.math_show.common.utils.utils import get_del_line
 
 color_map_quick = {
     "1.": "#A0A0A0",

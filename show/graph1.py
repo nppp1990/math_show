@@ -3,9 +3,9 @@ import sys
 sys.path.insert(0, '/Users/yuanjian/Downloads/py-project/manim')
 
 from manimlib import *
-from yj.common.utils.utils import connect_circle
-from yj.common.utils.utils import hide_object
-from yj.common.utils.utils import get_rect2
+from yj.math_show.common.utils.utils import connect_circle
+from yj.math_show.common.utils.utils import hide_object
+from yj.math_show.common.utils.utils import get_rect2
 
 color_map_graph1 = {
     "1.": "#A0A0A0",
